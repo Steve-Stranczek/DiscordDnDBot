@@ -1,30 +1,16 @@
-import DiscordJs, {
-  CommandInteractionOptionResolver,
-  Intents,
-} from "discord.js";
-import dotenv from "dotenv";
+import DiscordJs, { Intents, Client, Collection } from "discord.js";
+import "dotenv/config";
+const path = require("node:path");
 
-dotenv.config();
-
-const client = new DiscordJs.Client({
-  intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-  ],
+const client = new Client({
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
 client.on("ready", () => {
-  console.log("The bot is ready!");
-});
+  let handler = require("./command-handler");
+  if (handler.default) handler = handler.default;
 
-client.on("messageCreate", (message) => {
-  if (message.content === "ping") {
-    message.reply({
-      content: "pong",
-    });
-  }
+  handler(client);
 });
 
 client.login(process.env.TOKEN);
