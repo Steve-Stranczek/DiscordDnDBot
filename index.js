@@ -6,17 +6,28 @@ const { port } = require("./config.json");
 const path = require("node:path");
 const express = require("express");
 const app = express();
-app.listen(port, () => console.log(`App listening at http://localhost:${port}`));
+app.listen(port, () =>
+  console.log(`App listening at http://localhost:${port}`)
+);
 app.get("/", (request, response) => {
-    return response.sendFile("index.html", { root: "." });
+  return response.sendFile("index.html", { root: "." });
 });
 const client = new discord_js_1.Client({
-    intents: [discord_js_1.Intents.FLAGS.GUILDS, discord_js_1.Intents.FLAGS.GUILD_MESSAGES],
+  intents: [
+    discord_js_1.Intents.FLAGS.GUILDS,
+    discord_js_1.Intents.FLAGS.GUILD_MESSAGES,
+  ],
 });
 client.on("ready", () => {
-    let handler = require("./command-handler");
-    if (handler.default)
-        handler = handler.default;
-    handler(client);
+  let handler = require("./command-handler");
+  if (handler.default) handler = handler.default;
+  handler(client);
 });
+
+let job = new cron.CronJob("* * * * *", () => {
+  client.channels.cache.get("982622537395609642").send("Hello!!");
+});
+
+job.start();
+
 client.login(process.env.TOKEN);

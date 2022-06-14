@@ -1,5 +1,11 @@
-import DiscordJs, { Intents, Client, Collection } from "discord.js";
+import DiscordJs, {
+  Intents,
+  Client,
+  Collection,
+  TextChannel,
+} from "discord.js";
 import "dotenv/config";
+import { CronJob } from "cron";
 const { port } = require("./config.json");
 const path = require("node:path");
 const express = require("express");
@@ -24,5 +30,13 @@ client.on("ready", () => {
 
   handler(client);
 });
+
+let job = new CronJob("* * * * *", () => {
+  (client.channels.cache.get("982622537395609642") as TextChannel).send(
+    "Hello!"
+  );
+});
+
+job.start();
 
 client.login(process.env.TOKEN);
