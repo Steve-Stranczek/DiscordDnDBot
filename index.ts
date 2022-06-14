@@ -32,11 +32,28 @@ client.on("ready", () => {
 });
 
 let job = new CronJob("* * * * *", () => {
-  (client.channels.cache.get("982622537395609642") as TextChannel).send(
-    "Hello!"
-  );
+  (client.channels.cache.get("982622537395609642") as TextChannel)
+    .send("Hello!")
+    .then((msg) => {
+      msg.react("👍");
+    });
 });
 
-job.start();
+let job2 = new CronJob("* * * * *", () => {
+  (client.channels.cache.get("982622537395609642") as TextChannel).messages
+    .fetch({ limit: 50 })
+    .then((messages) => {
+      messages.forEach((message) => {
+        let count = message.reactions.cache.get("👍")?.count;
+        if (count != null && count > 1) {
+          (client.channels.cache.get("982622537395609642") as TextChannel).send(
+            message.content + " is what we will be eating!"
+          );
+        }
+      });
+    });
+});
+
+job2.start();
 
 client.login(process.env.TOKEN);
