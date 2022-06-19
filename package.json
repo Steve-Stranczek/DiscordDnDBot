@@ -8,9 +8,8 @@
     "start": "node-ts index.ts"
   },
   "engines": {
-    "node": "16.x",
-    "npm": "7.x"
- },
+    "node": "16.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
