@@ -2,11 +2,15 @@
   "name": "dndbot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node-ts index.ts"
   },
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
+ },
   "keywords": [],
   "author": "",
   "license": "ISC",
