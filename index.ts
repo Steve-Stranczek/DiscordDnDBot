@@ -31,16 +31,14 @@ client.on("ready", () => {
   handler(client);
 });
 
-let job = new CronJob("* * * * *", () => {
-  (client.channels.cache.get("982622537395609642") as TextChannel)
-    .send("Hello!")
-    .then((msg) => {
-      msg.react("👍");
-    });
+let deleteFoodMessages = new CronJob("0 23 * * WED", () => {
+  (client.channels.cache.get("988189553661722626") as TextChannel).bulkDelete(
+    100
+  );
 });
 
-let job2 = new CronJob("* * * * *", () => {
-  (client.channels.cache.get("982622537395609642") as TextChannel).messages
+let PickBestFood = new CronJob("0 15 * * WED", () => {
+  (client.channels.cache.get("988189553661722626") as TextChannel).messages
     .fetch({ limit: 50 })
     .then((messages) => {
       messages.forEach((message) => {
@@ -54,6 +52,6 @@ let job2 = new CronJob("* * * * *", () => {
     });
 });
 
-job2.start();
+deleteFoodMessages.start();
 
 client.login(process.env.TOKEN);
