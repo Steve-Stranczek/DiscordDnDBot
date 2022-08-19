@@ -37,10 +37,20 @@ let deleteFoodMessages = new CronJob("0 23 * * WED", () => {
   );
 });
 
+let deleteHostMessages = new CronJob ("0 23 * * WED", () => {
+  (client.channels.cache.get("983095841814372422") as TextChannel).bulkDelete(
+    100
+  );
+  (client.channels.cache.get("983095803176423525") as TextChannel).bulkDelete(
+    100
+  );
+});
+
 let pickBestFood = new CronJob("0 15 * * WED", () => {
   (client.channels.cache.get("988189553661722626") as TextChannel).messages
     .fetch({ limit: 50 })
     .then((messages) => {
+      if(messages.size > 0){
       let tuple: [number, string] = [0, "test"];
       messages.forEach((message) => {
         let count = message.reactions.cache.get("👍")?.count;
@@ -54,10 +64,11 @@ let pickBestFood = new CronJob("0 15 * * WED", () => {
           tuple[1] +
           " is what we will be eating!  Please send a message saying what you want!"
       );
-    });
+    }});
 });
 
 deleteFoodMessages.start();
 pickBestFood.start();
+deleteHostMessages.start();
 
 client.login(process.env.TOKEN);

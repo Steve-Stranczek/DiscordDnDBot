@@ -10,6 +10,7 @@ export default {
         .send(message.content.toString().replace("!food", ""))
         .then(function (msg) {
           msg.react("👍");
-        });
+        })
+        .then(message.delete);
   },
 };
