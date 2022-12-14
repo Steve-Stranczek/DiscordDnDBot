@@ -10,7 +10,7 @@ exports.default = {
       message.client.channels.cache
         .get("983095841814372422")
         .send(
-          "@everyone" + message.author.toString() + "will be hosting this week!"
+          "@everyone " + message.author.toString() + " will be hosting this week!"
         );
     }
   },
